@@ -78,7 +78,7 @@ def FBV_pk(request, pk):
     
     #PUT
     elif request.method == 'PUT':
-        serializer = GeustSerializer(data= request.data)
+        serializer = GeustSerializer(geust, data= request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
@@ -86,7 +86,7 @@ def FBV_pk(request, pk):
     #DELETE
     if request.method == 'DELETE':
 
-        request.delete()
+        geust.delete()
         
         return Response(status= status.HTTP_204_NO_CONTENT)
  except Guest.DoesNotExist:
