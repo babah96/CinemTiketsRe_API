@@ -1,8 +1,13 @@
 
 from django.contrib import admin
-from django.urls import path
+
+from django.urls import  path, include
+from rest_framework.routers import DefaultRouter
 
 from tikets import views
+
+router = DefaultRouter()
+router.register('guests', views.viewset_guest)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -18,7 +23,15 @@ urlpatterns = [
 
     path('rest/fvb/', views.FBV_List),
 
+    path('rest/fvbmovi/', views.FBV_ListMO),
+    
+    path('rest/res/', views.FBV_Listre),
+
+    path('rest/res/<int:pk>', views.FBre_pk),
+
     path('rest/fvbk/<int:pk>/', views.FBV_pk),
+
+     path('rest/fvbmovi/<int:pk>/', views.FBmov_pk),
 
 
     path('rest/getpo/', views.CBV_LIST.as_view()),
@@ -32,5 +45,7 @@ urlpatterns = [
     path('rest/generic/', views.generic_list.as_view()),
 
     path('rest/generic/<int:pk>/', views.generic_pk.as_view()),
+
+    path('rest/viewset/', include(router.urls) )
 
 ]

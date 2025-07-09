@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status , filters
 from rest_framework.views import APIView
 from django.http.response import JsonResponse
-from rest_framework import generics, mixins
+from rest_framework import generics, mixins, viewsets
 
 
 #1 methode without rest and no model 
@@ -178,3 +178,98 @@ class generic_list(generics.ListCreateAPIView):
 class generic_pk(generics.RetrieveUpdateDestroyAPIView):
     queryset = Guest.objects.all()
     serializer_class = GeustSerializer
+
+#viewset
+class viewset_guest(viewsets.ModelViewSet):
+
+    queryset = Guest.objects.all()
+    serializer_class = GeustSerializer
+
+@api_view(['GET', 'POST'])
+def FBV_ListMO(request):
+    
+    #GET
+    if request.method == 'GET':
+        movie = Movie.objects.all()
+        serializers = MovieSerializer(movie)
+        return Response(serializers.data)
+    
+    #POST
+    elif request.method == 'POST':
+        serializer = MovieSerializer(data= request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status= status.HTTP_400_BAD_REQUEST)
+    
+
+@api_view(['GET','PUT', 'DELETE'])
+def FBmov_pk(request, pk):
+ try:
+    mov = Movie.objects.get(pk=pk)
+ 
+    #GET
+    if request.method == 'GET':
+        serializers = MovieSerializer(mov)
+        return Response(serializers.data)
+    
+    #PUT
+    elif request.method == 'PUT':
+        serializer = MovieSerializer(mov, data= request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        return Response(serializer.errors, status= status.HTTP_204_NO_CONTENT)
+    #DELETE
+    if request.method == 'DELETE':
+
+        mov.delete()
+        
+        return Response(status= status.HTTP_204_NO_CONTENT)
+ except Guest.DoesNotExist:
+      return Response(status= status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET', 'POST'])
+def FBV_Listre(request):
+    
+    #GET
+    if request.method == 'GET':
+        res = Reservation.objects.all()
+        serializers = ReservationSerializer(res, many=True)
+        return Response(serializers.data)
+    
+    #POST
+    elif request.method == 'POST':
+        serializer = ReservationSerializer(data= request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status= status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET','PUT', 'DELETE'])
+def FBre_pk(request, pk):
+ try:
+    res = Reservation.objects.get(pk=pk)
+ 
+    #GET
+    if request.method == 'GET':
+        serializers = ReservationSerializer(res)
+        return Response(serializers.data)
+    
+    #PUT
+    elif request.method == 'PUT':
+        serializer = ReservationSerializer(res, data= request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        return Response(serializer.errors, status= status.HTTP_204_NO_CONTENT)
+    #DELETE
+    if request.method == 'DELETE':
+
+        res.delete()
+        
+        return Response(status= status.HTTP_204_NO_CONTENT)
+ except Guest.DoesNotExist:
+      return Response(status= status.HTTP_404_NOT_FOUND)
