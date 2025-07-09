@@ -29,4 +29,8 @@ urlpatterns = [
 
     path('rest/mixins/<int:pk>/', views.mixins_pk.as_view()),
 
+    path('rest/generic/', views.generic_list.as_view()),
+
+    path('rest/generic/<int:pk>/', views.generic_pk.as_view()),
+
 ]
