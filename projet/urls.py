@@ -18,7 +18,12 @@ urlpatterns = [
 
     path('rest/fvb/', views.FBV_List),
 
-    path('rest/fvbk/<int:pk>/', views.FBV_pk)
+    path('rest/fvbk/<int:pk>/', views.FBV_pk),
+
+
+    path('rest/getpo/', views.CBV_LIST.as_view()),
+
+    path('rest/getpo/<int:pk>/', views.CBV_pk.as_view()),
 
 
 ]
