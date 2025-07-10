@@ -27,6 +27,14 @@ urlpatterns = [
     
     path('rest/res/', views.FBV_Listre),
 
+    path('rest/movcl/<int:pk>', views.movcl_pk.as_view()),
+
+    path('rest/movcl/', views.mov_clas.as_view()),
+
+    path('rest/rescl/', views.res.as_view()),
+
+    path('rest/rescl/<int:pk>/', views.rescl_pk.as_view()),
+
     path('rest/res/<int:pk>', views.FBre_pk),
 
     path('rest/fvbk/<int:pk>/', views.FBV_pk),

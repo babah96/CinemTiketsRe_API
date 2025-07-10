@@ -250,6 +250,7 @@ def FBV_Listre(request):
 
 @api_view(['GET','PUT', 'DELETE'])
 def FBre_pk(request, pk):
+ 
  try:
     res = Reservation.objects.get(pk=pk)
  
@@ -273,3 +274,101 @@ def FBre_pk(request, pk):
         return Response(status= status.HTTP_204_NO_CONTENT)
  except Guest.DoesNotExist:
       return Response(status= status.HTTP_404_NOT_FOUND)
+ 
+
+
+
+
+#7.1 LIST and Create  de movie= GET and POST
+class mov_clas(APIView):
+    def get(self, request):
+        mov = Movie.objects.all()
+        serializer = MovieSerializer(mov, many= True)
+        return Response(serializer.data)
+    
+    def post(self, request):
+        serializer = MovieSerializer(data= request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                serializer.data,
+                status= status.HTTP_201_CREATED
+            )
+        return Response(
+            serializer.data,
+            status= status.HTTP_400_BAD_REQUEST
+        )
+    
+#7.2 get put and delet de movie
+class movcl_pk(APIView):
+
+    def get_object(self, pk):
+        try:
+            return Movie.objects.get(pk=pk)
+        except Movie.DoesNotExist:
+            raise Http404
+    def get(self , request, pk):
+        mov = self.get_object(pk)
+        serializer = MovieSerializer(mov)
+        return Response(serializer.data)
+    
+
+    def put(self, request, pk):
+        mov = self.get_object(pk)
+        serializer = MovieSerializer(mov, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, pk):
+        mov = self.get_object(pk)
+        mov.delete()
+        return Response(status= status.HTTP_204_NO_CONTENT)
+    
+class res(APIView):
+    def get(self, request):
+       res = Reservation.objects.all()
+       serializer = ReservationSerializer(res, many = True )
+       return Response(serializer.data)
+    
+
+    def post(self, request):
+        serializer = ReservationSerializer(data= request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                serializer.data,
+                status= status.HTTP_201_CREATED
+            )
+        return Response(
+            serializer.data,
+            status= status.HTTP_400_BAD_REQUEST
+        )
+    
+#7.2 get put and delet de reservation
+class rescl_pk(APIView):
+
+    def get_object(self, pk):
+        try:
+            return Reservation.objects.get(pk=pk)
+        except Reservation.DoesNotExist:
+            raise Http404
+    def get(self , request, pk):
+        res = self.get_object(pk)
+        serializer = ReservationSerializer(res)
+        return Response(serializer.data)
+    
+
+    def put(self, request, pk):
+        res = self.get_object(pk)
+        serializer = ReservationSerializer(res, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, pk):
+        res = self.get_object(pk)
+        res.delete()
+        return Response(status= status.HTTP_204_NO_CONTENT)
