@@ -45,6 +45,10 @@ urlpatterns = [
 
      path('findmov/', views.find_movie),
 
+     #new reservation
+
+     path('newres/', views.new_reservation),
+
      path('rest/fvbmovi/<int:pk>/', views.FBmov_pk),
 
 
