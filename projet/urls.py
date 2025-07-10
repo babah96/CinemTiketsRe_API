@@ -64,6 +64,9 @@ urlpatterns = [
 
     path('rest/generic/<int:pk>/', views.generic_pk.as_view()),
 
-    path('rest/viewset/', include(router.urls) )
+    path('rest/viewset/', include(router.urls) ),
+
+   # path('api-auth/', include('rest_framework.urls')),
+
 
 ]

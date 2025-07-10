@@ -9,6 +9,8 @@ from rest_framework import status , filters
 from rest_framework.views import APIView
 from django.http.response import JsonResponse
 from rest_framework import generics, mixins, viewsets
+from rest_framework.authentication import BasicAuthentication , TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 
 #1 methode without rest and no model 
@@ -174,10 +176,15 @@ class mixins_pk(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.Destr
 class generic_list(generics.ListCreateAPIView):
     queryset = Guest.objects.all()
     serializer_class = GeustSerializer
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
+   
 class generic_pk(generics.RetrieveUpdateDestroyAPIView):
     queryset = Guest.objects.all()
     serializer_class = GeustSerializer
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated]
 
 #viewset
 class viewset_guest(viewsets.ModelViewSet):
