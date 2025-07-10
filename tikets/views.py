@@ -372,3 +372,24 @@ class rescl_pk(APIView):
         res = self.get_object(pk)
         res.delete()
         return Response(status= status.HTTP_204_NO_CONTENT)
+
+
+#visets movi et reservation
+class viewset_movie(viewsets.ModelViewSet):
+    queryset = Movie.objects.all()
+    serializer_class = MovieSerializer
+    filter_bakend = [filters.SearchFilter]
+    search_fields = ['movie']
+
+class viewset_reservation(viewsets.ModelViewSet):
+    queryset = Reservation.objects.all()
+    serializer_class = ReservationSerializer
+
+@api_view(['GET'])
+def find_movie(request):
+    movies = Movie.objects.filter(
+        hall = request.data['hall'],
+        movie = request.data['movie'],
+    )
+    serializer = MovieSerializer(movies, many= True)
+    return Response(serializer.data)

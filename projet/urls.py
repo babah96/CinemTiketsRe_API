@@ -7,7 +7,9 @@ from rest_framework.routers import DefaultRouter
 from tikets import views
 
 router = DefaultRouter()
-router.register('guests', views.viewset_guest)
+router.register('guests', views.viewset_guest),
+router.register('movie', views.viewset_movie),
+router.register('res', views.viewset_reservation)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -38,6 +40,10 @@ urlpatterns = [
     path('rest/res/<int:pk>', views.FBre_pk),
 
     path('rest/fvbk/<int:pk>/', views.FBV_pk),
+
+    #find movie
+
+     path('findmov/', views.find_movie),
 
      path('rest/fvbmovi/<int:pk>/', views.FBmov_pk),
 
