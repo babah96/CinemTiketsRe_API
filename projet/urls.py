@@ -3,7 +3,7 @@ from django.contrib import admin
 
 from django.urls import  path, include
 from rest_framework.routers import DefaultRouter
-
+from rest_framework.authtoken.views import obtain_auth_token
 from tikets import views
 
 router = DefaultRouter()
@@ -66,7 +66,11 @@ urlpatterns = [
 
     path('rest/viewset/', include(router.urls) ),
 
-   # path('api-auth/', include('rest_framework.urls')),
+    path('api-auth/', include('rest_framework.urls')),
+
+    #token
+
+     path('api-token-auth/', obtain_auth_token),
 
 
 ]
